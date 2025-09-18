@@ -1,22 +1,29 @@
 import re
 
+def _calcular_dv(cpf_parcial: list[int]) -> int:
+
+    soma = sum(
+        digito * (len(cpf_parcial) + 1 - i)
+        for i, digito in enumerate(cpf_parcial)
+    )
+    resto = soma % 11
+    return 0 if resto < 2 else 11 - resto
+
 def validar_cpf(cpf: str) -> bool:
     if not isinstance(cpf, str):
         return False
+
     cpf_limpo = re.sub(r'[.\-\s]', '', cpf)
-    if not cpf_limpo.isdigit() or len(cpf_limpo) != 11:
+    if not cpf_limpo.isdigit() or len(cpf_limpo) != 11 or len(set(cpf_limpo)) == 1:
         return False
-    if len(set(cpf_limpo)) == 1:
-        return False
+
     digitos = [int(d) for d in cpf_limpo]
-    soma_dv1 = sum(digitos[i] * (10 - i) for i in range(9))
-    resto_dv1 = soma_dv1 % 11
-    dv1_calculado = 0 if resto_dv1 < 2 else 11 - resto_dv1
+    dv1_calculado = _calcular_dv(digitos[:9])
     if dv1_calculado != digitos[9]:
         return False
-    soma_dv2 = sum(digitos[i] * (11 - i) for i in range(10))
-    resto_dv2 = soma_dv2 % 11
-    dv2_calculado = 0 if resto_dv2 < 2 else 11 - resto_dv2
+        
+    dv2_calculado = _calcular_dv(digitos[:10])
     if dv2_calculado != digitos[10]:
         return False
+        
     return True
