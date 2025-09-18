@@ -8,7 +8,7 @@ class TestValidadorCPF(unittest.TestCase):
         cpf_sem_mascara = "52998224725" 
         cpf_com_espacos = " 529.982.247-25 "
 
-        self.assertTrue(validar_cpf(cpf_com_mascara), "Deveria ser válido com máscara")
+        self.assertTrue(validar_cpf(cpf_com_mascara), "Deveria ser válido com máscara.")
         self.assertTrue(validar_cpf(cpf_sem_mascara), "Deveria ser válido sem máscara")
         self.assertTrue(validar_cpf(cpf_com_espacos), "Deveria aceitar espaços externos")
 
